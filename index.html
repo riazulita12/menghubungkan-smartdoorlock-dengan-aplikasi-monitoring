@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Smart Door Lock IoT – Bahan Ajar Interaktif</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap">
+<style>
+:root{--bg:#eef2ff;--card:#ffffff;--tx:#1e1b4b;--mu:#64748b;--pr:#6366f1;--pr2:#06b6d4;--ok:#10b981;--no:#f43f5e;--wa:#f59e0b;--bd:#e0e7ff;--code:#0b1020;--codetx:#e2e8f0;--sh:0 8px 24px rgba(99,102,241,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--card:#141b34;--tx:#e8ecff;--mu:#9aa6c7;--bd:#27315a;--code:#060913;--sh:0 8px 24px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#0b1020;--card:#141b34;--tx:#e8ecff;--mu:#9aa6c7;--bd:#27315a;--code:#060913;--sh:0 8px 24px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:relative;overflow:hidden;background:linear-gradient(135deg,#312e81,#6366f1 55%,#06b6d4);color:#fff;padding:44px 18px 56px;text-align:center}
+header:before,header:after{content:"";position:absolute;border-radius:50%;filter:blur(40px);opacity:.5;animation:fl 9s ease-in-out infinite alternate}
+header:before{width:240px;height:240px;background:#22d3ee;left:-60px;top:-60px}
+header:after{width:280px;height:280px;background:#a855f7;right:-80px;bottom:-120px;animation-delay:-4s}
+@keyframes fl{to{transform:translate(40px,30px) scale(1.15)}}
+.lock{position:relative;z-index:1;font-size:3.4rem;width:96px;height:96px;margin:0 auto 10px;display:grid;place-items:center;border-radius:28px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.4);animation:pu 2.8s ease-in-out infinite}
+@keyframes pu{50%{transform:translateY(-6px) rotate(-4deg);box-shadow:0 14px 30px rgba(0,0,0,.25)}}
+header h1{position:relative;z-index:1;margin:0 0 6px;font-size:clamp(1.5rem,5vw,2.3rem);font-weight:800}
+header p{position:relative;z-index:1;margin:0;opacity:.92}
+.tags{position:relative;z-index:1;margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tags span{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);padding:3px 12px;border-radius:999px;font-size:.8rem}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:-24px auto 0;max-width:880px;background:var(--card);border-radius:18px;box-shadow:var(--sh);display:flex;gap:4px;overflow-x:auto;padding:8px 8px 11px;border:1px solid var(--bd)}
+nav button{flex:none;border:0;background:transparent;color:var(--mu);padding:8px 14px;border-radius:12px;font:600 .85rem Poppins,sans-serif;cursor:pointer;transition:.2s}
+nav button:hover{background:var(--bd)}
+nav button.on{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.4)}
+#pg{position:absolute;left:12px;bottom:4px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--pr),var(--pr2));transition:width .4s;width:0}
+main{max-width:860px;margin:0 auto;padding:18px 14px 40px}
+section{display:none}section.on{display:block}
+section.on>*{animation:up .5s both}section.on>*:nth-child(2){animation-delay:.08s}section.on>*:nth-child(3){animation-delay:.16s}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+.card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:var(--sh);overflow:hidden;transition:.25s}
+.card:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,var(--pr),var(--pr2),#a855f7)}
+.card:hover{transform:translateY(-2px)}
+h2{margin:.2em 0 .5em;font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,var(--pr),var(--pr2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h3{margin:.2em 0 .4em}
+.btn{background:linear-gradient(135deg,var(--pr),#8b5cf6);color:#fff;border:0;border-radius:12px;padding:10px 18px;font:600 .9rem Poppins,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(99,102,241,.35);transition:.2s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.96)}
+.btn.g{background:linear-gradient(135deg,#10b981,#06b6d4)}.btn.r{background:linear-gradient(135deg,#f43f5e,#f97316)}
+.btn.o{background:transparent;color:var(--pr);border:2px solid var(--pr);box-shadow:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;margin:14px 0}
+.node{padding:10px 12px;border:2px dashed var(--bd);border-radius:14px;text-align:center;font-size:.82rem;min-width:84px;transition:.3s;background:var(--bg)}
+.node.on{border:2px solid transparent;background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;transform:scale(1.12);box-shadow:0 6px 18px rgba(6,182,212,.5)}
+.arr{color:var(--pr2);font-weight:700}
+pre{background:var(--code);color:var(--codetx);border-radius:14px;padding:38px 14px 14px;overflow-x:auto;font:.85rem/1.6 ui-monospace,Menlo,Consolas,monospace;margin:8px 0;position:relative}
+pre:before{content:"● ● ●  main.py";position:absolute;left:14px;top:10px;font-size:.7rem;color:#64748b;letter-spacing:2px}
+.ln{display:block;cursor:pointer;padding:1px 8px;border-radius:6px;white-space:pre;transition:.15s}
+.ln:hover{background:#243056}.ln.on{background:linear-gradient(90deg,#4f46e5,#0891b2)}
+.note{background:rgba(99,102,241,.1);border-left:5px solid var(--pr);padding:12px 14px;border-radius:10px;margin:10px 0}
+.warn{background:rgba(245,158,11,.14);border-left-color:var(--wa)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:10px 0}
+.sim{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;text-align:center;margin:12px 0}
+.dev{border:1px solid var(--bd);border-radius:16px;padding:14px 10px;background:var(--bg);transition:.25s}
+.grid .dev:hover{transform:translateY(-4px) rotate(-1deg);border-color:var(--pr);box-shadow:var(--sh)}
+.dev .big{font-size:2.2rem;display:inline-block;transition:.3s}
+.lamp{display:inline-block;width:14px;height:14px;border-radius:50%;background:#94a3b8;vertical-align:middle;transition:.3s}
+.lamp.on{background:var(--ok);box-shadow:0 0 12px var(--ok)}
+.log{background:var(--code);color:#6ee7b7;border-radius:14px;padding:12px;height:130px;overflow:auto;font:.78rem/1.6 ui-monospace,Menlo,Consolas,monospace}
+label{display:inline-flex;gap:6px;align-items:center;font-size:.9rem}
+select{font:inherit;padding:4px 8px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 14px;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:14px;font:inherit;cursor:pointer;transition:.2s}
+.opt:hover{border-color:var(--pr);transform:translateX(4px)}
+.opt.ok{background:rgba(16,185,129,.18);border-color:var(--ok)}.opt.no{background:rgba(244,63,94,.16);border-color:var(--no)}
+.chip{display:inline-block;padding:3px 12px;border-radius:999px;background:var(--bd);font-size:.8rem;font-weight:600}
+details{border:1px solid var(--bd);border-radius:14px;padding:10px 14px;margin:8px 0;background:var(--bg);transition:.2s}
+details[open]{border-color:var(--pr);background:var(--card)}summary{cursor:pointer;font-weight:600}
+li{margin:4px 0}ul li::marker,ol li::marker{color:var(--pr2)}
+code{background:var(--bd);padding:1px 7px;border-radius:6px;font-size:.85em}
+.nx{display:flex;justify-content:space-between;margin-top:6px}
+</style>
+</head>
+<body>
+<header><div class="lock">🔐</div><h1>Smart Door Lock berbasis IoT</h1><p>Menghubungkan ESP32 dengan Internet &amp; Aplikasi Monitoring</p><div class="tags"><span>Kelas XII Fase F</span><span>PPLG / RPL</span><span>ESP32 · MicroPython</span></div></header>
+<nav id="nav"><i id="pg"></i></nav>
+<main>
+
+<section id="s0" data-t="🎯 Mulai">
+<div class="card"><h2>Tujuan Pembelajaran</h2>
+<p>Setelah belajar, kamu mampu:</p>
+<ul>
+<li>Menjelaskan konsep IoT pada Smart Door Lock</li><li>Menghubungkan ESP32 ke Wi-Fi dengan MicroPython</li>
+<li>Memahami komunikasi ESP32 – Internet – aplikasi</li><li>Mengendalikan relay &amp; solenoid lewat aplikasi, serta menampilkan status</li>
+<li>Melakukan troubleshooting &amp; menerapkan keamanan dasar IoT</li></ul></div>
+<div class="card"><h2>Apersepsi: dari lokal ke Internet</h2>
+<p>Sebelumnya pintu hanya bisa dibuka dengan tombol. <b>Bagaimana jika kita ingin membuka pintu dengan smartphone?</b> Tekan tombol untuk melihat sistem berkembang:</p>
+<div class="flow" id="ap"></div>
+<div class="row" style="justify-content:center"><button class="btn" onclick="apSet(0)">Sistem Lokal</button><button class="btn g" onclick="apSet(1)">Sistem IoT</button></div>
+<p class="note" id="apn"></p></div>
+<div class="card"><h2>Apa itu Internet of Things?</h2>
+<p>IoT adalah konsep ketika perangkat fisik terhubung ke jaringan dan bertukar data dengan perangkat atau sistem lain. Contoh: lampu pintar, CCTV online, smart watch, smart farming, sensor suhu, dan <b>Smart Door Lock</b>.</p>
+<div class="grid">
+<div class="dev">📡 <b>ESP32</b><br>Pengendali &amp; Wi-Fi</div><div class="dev">🔌 <b>Relay</b><br>Saklar elektronik</div>
+<div class="dev">🧲 <b>Solenoid</b><br>Pengunci pintu</div><div class="dev">⚡ <b>Power Supply</b><br>Penyedia daya</div>
+<div class="dev">🔘 <b>Push Button</b><br>Kontrol lokal</div><div class="dev">🔔 <b>Buzzer &amp; LED</b><br>Indikator</div></div></div>
+</section>
+
+<section id="s1" data-t="🏗️ Arsitektur">
+<div class="card"><h2>Arsitektur &amp; Alur Kerja</h2>
+<div class="flow" id="arch"></div>
+<p class="note" id="stp"></p>
+<div class="row"><button class="btn o" onclick="stp(-1)">◀ Sebelumnya</button><button class="btn" onclick="stp(1)">Berikutnya ▶</button><span class="chip" id="stc"></span></div></div>
+<div class="card"><h3>Wi-Fi vs Internet</h3>
+<div class="grid"><div class="dev"><b>Wi-Fi</b><br>Teknologi koneksi jaringan nirkabel.</div><div class="dev"><b>Internet</b><br>Jaringan global yang menghubungkan berbagai jaringan.</div></div>
+<p>Wi-Fi adalah salah satu cara ESP32 terhubung ke jaringan; Internet memungkinkan komunikasi dengan sistem di luar jaringan lokal.</p>
+<h3>IP Address</h3><p>Alamat perangkat di jaringan. Router memberi IP ke setiap perangkat:</p>
+<pre>Router
+ ├── Laptop → 192.168.1.5
+ ├── HP     → 192.168.1.7
+ └── ESP32  → 192.168.1.10</pre></div>
+</section>
+
+<section id="s2" data-t="📶 Wi-Fi ESP32">
+<div class="card"><h2>Program Koneksi Wi-Fi</h2>
+<p>👆 Klik tiap baris kode untuk melihat penjelasannya.</p>
+<pre id="code"></pre><div class="note" id="cx">Klik salah satu baris kode.</div>
+<div class="note warn">Jangan membagikan password Wi-Fi sebenarnya kepada orang lain.</div></div>
+<div class="card"><h3>Datastream / Virtual Pin</h3>
+<p>Platform IoT (misalnya <b>Blynk</b>) memakai saluran data virtual:</p>
+<div class="grid"><div class="dev"><b>V0</b><br>Kontrol Pintu</div><div class="dev"><b>V1</b><br>Status Pintu</div><div class="dev"><b>V2</b><br>Status Wi-Fi</div></div>
+<p><code>V0 = 1</code> → perintah membuka pintu. <code>V0 = 0</code> → perintah mengunci pintu.</p>
+<p>Komunikasi <b>dua arah</b>: ESP32 → aplikasi (status) dan aplikasi → ESP32 (perintah).</p></div>
+</section>
+
+<section id="s3" data-t="🧪 Simulator">
+<div class="card"><h2>Simulator Smart Door Lock</h2>
+<p>Coba kendalikan pintu dari "aplikasi". Program ESP32 menulis <code>relay.value(1)</code> saat BUKA dan <code>value(0)</code> saat KUNCI.</p>
+<div class="row">
+<button class="btn" id="bw" onclick="wf()">Hubungkan Wi-Fi</button>
+<label><input type="checkbox" id="pw" checked onchange="upd()"> Power solenoid menyala</label>
+<label>Relay: <select id="pol" onchange="upd()"><option value="h">Active HIGH</option><option value="l">Active LOW</option></select></label></div>
+<div class="sim">
+<div class="dev">📱 Aplikasi<br><span class="big" id="st">🔒</span><br><span id="stt">TERKUNCI</span><br>Wi-Fi: <span class="lamp" id="lw"></span></div>
+<div class="dev">📡 ESP32<br>GPIO 23 = <b id="gp">0</b></div>
+<div class="dev">🔌 Relay<br><span class="lamp" id="lr"></span> <span id="rt">OFF</span></div>
+<div class="dev">🧲 Solenoid<br><span class="big" id="so">⚫</span><br><span id="sot">diam</span></div>
+<div class="dev">🚪 Pintu<br><span class="big" id="dr">🚪</span></div></div>
+<div class="row"><button class="btn g" onclick="cmd(1)">🔓 BUKA PINTU (V0=1)</button><button class="btn r" onclick="cmd(0)">🔒 KUNCI (V0=0)</button></div>
+<h3>Log</h3><div class="log" id="log"></div>
+<p class="note">Eksperimen: (1) tekan BUKA sebelum Wi-Fi terhubung. (2) Ganti ke Active LOW lalu tekan BUKA. (3) Matikan power solenoid. Apa yang terjadi, dan mengapa?</p></div>
+</section>
+
+<section id="s4" data-t="🛠️ Troubleshooting">
+<div class="card"><h2>Troubleshooting Koneksi IoT</h2>
+<details><summary>Kasus 1 – ESP32 tidak terhubung Wi-Fi</summary><ul><li>SSID &amp; password benar?</li><li>Wi-Fi/hotspot aktif?</li><li>Jarak ESP32 ke router</li><li>Koneksi router</li></ul></details>
+<details><summary>Kasus 2 – ESP32 terhubung, aplikasi tidak</summary><ul><li>Koneksi Internet</li><li>Konfigurasi platform</li><li>Token/device credentials</li><li>Datastream</li><li>Kode MicroPython</li></ul></details>
+<details><summary>Kasus 3 – Tombol ditekan, relay tidak bergerak</summary><p>Telusuri berurutan:</p><p><b>Aplikasi → Datastream → ESP32 → Program → GPIO → Relay</b></p></details>
+<details><summary>Kasus 4 – Relay bekerja terbalik</summary><p>Periksa logika relay <b>Active HIGH</b> atau <b>Active LOW</b>. Coba di simulator!</p></details>
+<details><summary>Kasus 5 – Relay bekerja, solenoid tidak bergerak</summary><ul><li>Power supply &amp; tegangan solenoid</li><li>Kabel relay &amp; solenoid</li><li>Common / NO / NC relay</li><li>Kondisi solenoid</li></ul></details></div>
+<div class="card"><h3>🕵️ Diagnosa Cepat</h3><p id="dq"></p><div id="da"></div></div>
+</section>
+
+<section id="s5" data-t="🛡️ Keamanan">
+<div class="card"><h2>Keamanan IoT</h2><p>Smart Door Lock mengatur akses pintu, jadi keamanan sangat penting. Tentukan: <b>Lakukan</b> atau <b>Jangan</b>?</p>
+<div id="sq"></div></div>
+<div class="card"><h3>🚀 Pengembangan Fitur</h3>
+<ol><li>Remote Control (buka/kunci dari HP)</li><li>Monitoring status pintu</li><li>Auto Lock setelah beberapa detik</li><li>Notifikasi saat pintu dibuka</li><li>Access Control per pengguna</li><li>Riwayat (mis. 08:10 – Pintu dibuka)</li></ol></div>
+</section>
+
+<section id="s6" data-t="📝 Kuis">
+<div class="card"><h2>Kuis Evaluasi</h2><div id="qz"></div><p><b id="sc"></b></p><button class="btn o" onclick="qInit()">Ulangi</button></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+// tabs
+const secs=[...document.querySelectorAll('section')];
+secs.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.dataset.t;b.onclick=()=>show(i);$('nav').insertBefore(b,$('pg'))});
+function show(i){secs.forEach((s,j)=>{s.classList.toggle('on',i==j);$('nav').children[j+1].classList.toggle('on',i==j)});scrollTo(0,0)}
+show(0);
+// apersepsi
+const L=['🔘 Push Button','📡 ESP32','🔌 Relay','🧲 Solenoid','🚪 Pintu'],I=['📱 Smartphone','🌐 Internet','📶 Wi-Fi','📡 ESP32','🔌 Relay','🧲 Solenoid','🚪 Pintu'];
+function flow(el,a,on=-1){$(el).innerHTML=a.map((x,i)=>`<div class="node ${i==on?'on':''}">${x}</div>`).join('<span class="arr">➜</span>')}
+function apSet(k){flow('ap',k?I:L);$('apn').textContent=k?'Perintah kini datang dari smartphone melalui Internet dan Wi-Fi. Inilah dasar Internet of Things.':'Tombol ditekan → ESP32 memberi perintah → relay → solenoid bekerja. Semua terjadi secara lokal.'}apSet(0);
+// arsitektur
+const S=[['Pengguna membuka aplikasi.',0],['Pengguna menekan tombol BUKA PINTU.',0],['Aplikasi mengirimkan perintah.',0],['Perintah melewati jaringan Internet.',1],['ESP32 menerima perintah (lewat Wi-Fi).',3],['ESP32 mengaktifkan GPIO 23.',3],['Relay berubah kondisi.',4],['Solenoid bekerja.',5],['Pintu terbuka.',6],['Status dikirim kembali ke aplikasi.',0]];
+let si=0;function stp(d){si=(si+d+S.length)%S.length;flow('arch',I,S[si][1]);$('stp').textContent=S[si][0];$('stc').textContent=`Langkah ${si+1}/${S.length}`}stp(0);
+// kode
+const C=[['import network','Memanggil library network untuk koneksi jaringan.'],['import time','time dipakai untuk memberi jeda.'],['',''],['wifi = network.WLAN(network.STA_IF)','Membuat objek Wi-Fi. STA_IF = ESP32 sebagai station/client yang bergabung ke Wi-Fi yang sudah ada.'],['wifi.active(True)','True berarti modul Wi-Fi ESP32 diaktifkan.'],['wifi.connect("NAMA_WIFI", "PASSWORD_WIFI")','Menghubungkan ke Wi-Fi dengan SSID dan password.'],['',''],['while not wifi.isconnected():','Selama belum terhubung, ESP32 terus menunggu.'],['    print("Menghubungkan ke WiFi...")','Menampilkan pesan proses ke konsol.'],['    time.sleep(1)','Jeda 1 detik sebelum memeriksa lagi.'],['',''],['print("WiFi Terhubung!")','Pesan sukses setelah terhubung.'],['print("IP Address:", wifi.ifconfig()[0])','Menampilkan IP yang diberikan router, misalnya 192.168.1.10.']];
+$('code').innerHTML=C.map((c,i)=>`<span class="ln" onclick="ex(${i},this)">${c[0]||' '}</span>`).join('');
+function ex(i,e){if(!C[i][1])return;document.querySelectorAll('.ln').forEach(x=>x.classList.remove('on'));e.classList.add('on');$('cx').textContent=C[i][1]}
+// simulator
+let wok=false,pin=0,door=false;
+function lg(t){const l=$('log');l.innerHTML+=new Date().toLocaleTimeString('id-ID')+' '+t+'<br>';l.scrollTop=1e9}
+function wf(){wok=!wok;$('bw').textContent=wok?'Putuskan Wi-Fi':'Hubungkan Wi-Fi';lg(wok?'ESP32: WiFi Terhubung, IP 192.168.1.10':'ESP32: WiFi terputus');upd()}
+function cmd(v){if(!wok){lg('❌ Perintah gagal: ESP32 offline (cek Wi-Fi).');return}pin=v;lg(`📱 Aplikasi kirim V0=${v} → ESP32 relay.value(${v})`);upd(true)}
+function upd(msg){const low=$('pol').value=='l',pw=$('pw').checked;const ron=low?pin==0:pin==1;door=ron&&pw;
+$('lw').classList.toggle('on',wok);$('gp').textContent=pin;$('lr').classList.toggle('on',ron);$('rt').textContent=ron?'ON':'OFF';
+$('so').textContent=door?'🟢':'⚫';$('sot').textContent=door?'bekerja':'diam';$('dr').textContent=door?'🚪✨':'🚪';
+$('st').textContent=door?'🔓':'🔒';$('stt').textContent=door?'TERBUKA':'TERKUNCI';
+if(msg){lg(`Relay ${ron?'ON':'OFF'}, solenoid ${door?'bekerja':'diam'} → status: ${door?'TERBUKA':'TERKUNCI'}`);
+if(pin==1&&!ron)lg('⚠️ Perintah BUKA tetapi relay OFF → cek Active HIGH/LOW!');
+if(ron&&!pw)lg('⚠️ Relay ON tetapi solenoid diam → cek power supply/kabel.')}}
+upd();lg('Sistem siap. Hubungkan Wi-Fi terlebih dahulu.');
+// diagnosa
+const D=[['Relay ON (terdengar klik) tetapi solenoid tidak bergerak. Apa yang diperiksa?',['Power supply & kabel solenoid','SSID Wi-Fi','Token aplikasi'],0],['Tombol BUKA ditekan, relay justru OFF; saat KUNCI relay ON. Penyebab paling mungkin?',['Router rusak','Logika Active HIGH/LOW terbalik','IP Address salah'],1],['ESP32 terhubung Wi-Fi, namun aplikasi menampilkan perangkat offline. Periksa?',['Token/credentials & konfigurasi platform','Ukuran solenoid','Warna LED'],0]];
+let di=0;function dg(){const d=D[di];$('dq').textContent=d[0];$('da').innerHTML=d[1].map((o,i)=>`<button class="opt" onclick="dc(this,${i})">${o}</button>`).join('')}
+function dc(b,i){const ok=i==D[di][2];b.classList.add(ok?'ok':'no');if(ok)setTimeout(()=>{di=(di+1)%D.length;dg()},900)}dg();
+// keamanan
+const K=[['Menggunakan password sederhana',0],['Menggunakan autentikasi',1],['Membagikan token perangkat',0],['Menyimpan kredensial dengan aman',1],['Menampilkan kredensial pada screenshot',0],['Membatasi pengguna aplikasi',1],['Menghubungkan solenoid langsung ke GPIO',0],['Menyediakan akses manual/emergency',1],['Menggunakan power supply sesuai spesifikasi',1]];
+$('sq').innerHTML=K.map((k,i)=>`<div class="row" style="justify-content:space-between;border-bottom:1px solid var(--bd);padding:6px 0"><span>${k[0]}</span><span><button class="btn g" onclick="sk(this,${i},1)">Lakukan</button> <button class="btn r" onclick="sk(this,${i},0)">Jangan</button></span></div>`).join('');
+function sk(b,i,v){const p=b.parentNode;p.innerHTML=v==K[i][1]?'✅ Benar':'❌ Salah — seharusnya '+(K[i][1]?'Lakukan':'Jangan')}
+// kuis
+const Q=[['IoT adalah…',['Perangkat fisik yang terhubung jaringan dan bertukar data','Program tanpa perangkat','Kabel khusus listrik'],0],['STA_IF pada ESP32 berarti…',['Sebagai access point','Sebagai station/client Wi-Fi','Mematikan Wi-Fi'],1],['Perintah untuk menampilkan IP address ESP32 adalah…',['wifi.active(True)','wifi.ifconfig()[0]','time.sleep(1)'],1],['V0 = 1 pada datastream pintu berarti…',['Perintah membuka pintu','Perintah mengunci pintu','Wi-Fi terputus'],0],['Pada relay Active LOW, relay ON saat…',['value(1)','value(0)','tidak pernah'],1],['Mana yang TIDAK aman?',['Membatasi pengguna','Membagikan token perangkat','Memakai autentikasi'],1]];
+let sc=0,an=0;
+function qInit(){sc=0;an=0;$('sc').textContent='';$('qz').innerHTML=Q.map((q,i)=>`<div id="q${i}" style="margin-bottom:12px"><b>${i+1}. ${q[0]}</b>${q[1].map((o,j)=>`<button class="opt" onclick="qa(${i},${j},this)">${o}</button>`).join('')}</div>`).join('')}
+function qa(i,j,b){const p=$('q'+i);if(p.dataset.d)return;p.dataset.d=1;an++;const ok=j==Q[i][2];if(ok)sc++;b.classList.add(ok?'ok':'no');if(!ok)p.querySelectorAll('.opt')[Q[i][2]].classList.add('ok');
+if(an==Q.length)$('sc').textContent=`Skor: ${sc}/${Q.length} (${Math.round(sc/Q.length*100)}) ${sc==Q.length?'🎉 Sempurna!':sc>=4?'👍 Bagus!':'📚 Pelajari lagi materinya.'}`}
+qInit();
+// progress + tombol lanjut
+secs.forEach((x,i)=>{const d=document.createElement('div');d.className='nx';d.innerHTML=(i?`<button class="btn o" onclick="show(${i-1})">◀ Sebelumnya</button>`:'<span></span>')+(i<secs.length-1?`<button class="btn" onclick="show(${i+1})">Lanjut ▶</button>`:'<span></span>');x.append(d)});
+const _s=show;show=function(i){_s(i);$('pg').style.width=((i+1)/secs.length*(Math.max($('nav').clientWidth,0)-24))+'px'};show(0);
+</script>
+</body>
+</html>
